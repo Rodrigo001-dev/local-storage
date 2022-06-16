@@ -19,6 +19,19 @@ type FormData = {
 export function Form() {
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
+  function handleNew({ service_name, email_or_username, password }: FormData) {
+    const id = uuid.v4();
+
+    const newData = {
+      id,
+      name: service_name,
+      user: email_or_username,
+      password,
+    };
+
+    console.log(newData);
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -55,6 +68,7 @@ export function Form() {
           <View style={styles.footer}>
             <Button
               title="Salvar"
+              onPress={handleSubmit(handleNew)}
             />
           </View>
         </ScrollView>
