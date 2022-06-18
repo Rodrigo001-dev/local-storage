@@ -6,7 +6,7 @@ Utilizando armazenamento local em um app!
 
 Quando falamos de armazenamento no mobile, temos algumas estratégias:
 
-- Online: quando falamos de armazenamento online podemos pensar em um firebase ou em uma API que vai gerenciar do armazenamento das informações e que usa por exemplo um postgre
+- Online: quando falamos de armazenamento online podemos pensar em um firebase ou em uma API que vai fazer o gerenciamento do armazenamento das informações e que usa por exemplo um postgre.
 
 - Offline: quando utilizamos uma estratégia offline, são aquelas estratégias em que é armazenado tudo localmente. Temos algumas opções como por exemplo: SQLite e Async Storage. Nesse caso optei por utilizar o Async Storage.
 
