@@ -14,8 +14,14 @@ export function Home() {
 
   async function handleFetchData() {
     const response = await AsyncStorage.getItem("@localstorage:passwords");
-    const data = response ? JSON.parse(response) : {};
+    const data = response ? JSON.parse(response) : [];
+    setData(data);
   };
+
+  // quando o foco voltar para a tela Home, ele vai atualizar os dados
+  useFocusEffect(useCallback(() => {
+    handleFetchData();
+  }, []));
 
   return (
     <View style={styles.container}>
