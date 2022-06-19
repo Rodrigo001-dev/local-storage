@@ -12,11 +12,22 @@ import { Button } from '../../components/Button';
 export function Home() {
   const [data, setData] = useState<CardProps[]>([]);
 
-  const { getItem } = useAsyncStorage("@localstorage:passwords");
+  const { getItem, setItem } = useAsyncStorage("@localstorage:passwords");
 
   async function handleFetchData() {
     const response = await getItem();
     const data = response ? JSON.parse(response) : [];
+    setData(data);
+  };
+
+  async function handleRemove(id: string) {
+    const response = await getItem();
+    const previousData = response ? JSON.parse(response) : [];
+
+    // fazendo um filtro em todos os registros, menos o registro que eu quero
+    // deletar(item.id !== id)
+    const data = previousData.filter((item: CardProps) => item.id !== id);
+    setItem(JSON.stringify(data));
     setData(data);
   };
 
