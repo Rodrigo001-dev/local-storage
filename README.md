@@ -1,9 +1,4 @@
 ## :page_with_curl: Projeto
-
-<LINKEDIN>
-Utilizando armazenamento local em um app!
-</LINKEDIN>
-
 Quando falamos de armazenamento no mobile, temos algumas estratégias:
 
 
