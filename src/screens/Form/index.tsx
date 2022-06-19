@@ -38,8 +38,10 @@ export function Form() {
     // local, esse padrão(estratégia) para diferenciar as coleções, aquilo que é
     // armazenado e mantido por essa aplicação 
     await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
-
-    console.log(newData);
+    Toast.show({
+      type: "success",
+      text1: "Cadastrado com sucesso!"
+    });
   };
 
   return (
