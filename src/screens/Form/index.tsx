@@ -28,8 +28,17 @@ export function Form() {
         id,
         name: service_name,
         user: email_or_username,
-        password,
+        password
       };
+
+      // buscando tudo que existe antes de salvar
+      const response = await AsyncStorage.getItem("@localstorage:passwords");
+      const previousData = response ? JSON.parse(response) : [];
+
+      // criando um novo objeto com o que tinha antes e o novo registro, porque
+      // se eu não fizer isso o AsyncStorage vai substituir o novo registro no
+      // lugar do antigo
+      const data = [...previousData, newData];
 
       // o AsyncStorage não é um banco de dados relacional, ele é um banco de dados
       // simples que armazena as informações no formato de texto 
@@ -38,7 +47,8 @@ export function Form() {
       // celular do usuário pode ter outras aplicações que utilizam o armazenamento
       // local, esse padrão(estratégia) para diferenciar as coleções, aquilo que é
       // armazenado e mantido por essa aplicação 
-      await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
+      // await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
+      await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(data));
       Toast.show({
         type: "success",
         text1: "Cadastrado com sucesso!"
