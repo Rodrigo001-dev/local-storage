@@ -2,7 +2,7 @@ import React from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { useForm } from 'react-hook-form';
 
 import { styles } from './styles';
@@ -20,6 +20,8 @@ type FormData = {
 export function Form() {
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
+  const { getItem, setItem } = useAsyncStorage("@localstorage:passwords");
+
   async function handleNew({ service_name, email_or_username, password }: FormData) {
     try {
       const id = uuid.v4();
@@ -32,7 +34,7 @@ export function Form() {
       };
 
       // buscando tudo que existe antes de salvar
-      const response = await AsyncStorage.getItem("@localstorage:passwords");
+      const response = await getItem();
       const previousData = response ? JSON.parse(response) : [];
 
       // criando um novo objeto com o que tinha antes e o novo registro, porque
@@ -48,7 +50,7 @@ export function Form() {
       // local, esse padrão(estratégia) para diferenciar as coleções, aquilo que é
       // armazenado e mantido por essa aplicação 
       // await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
-      await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(data));
+      await setItem(JSON.stringify(data));
       Toast.show({
         type: "success",
         text1: "Cadastrado com sucesso!"
