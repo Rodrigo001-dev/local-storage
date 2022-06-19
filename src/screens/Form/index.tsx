@@ -21,27 +21,36 @@ export function Form() {
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   async function handleNew({ service_name, email_or_username, password }: FormData) {
-    const id = uuid.v4();
+    try {
+      const id = uuid.v4();
 
-    const newData = {
-      id,
-      name: service_name,
-      user: email_or_username,
-      password,
-    };
+      const newData = {
+        id,
+        name: service_name,
+        user: email_or_username,
+        password,
+      };
 
-    // o AsyncStorage não é um banco de dados relacional, ele é um banco de dados
-    // simples que armazena as informações no formato de texto 
-    // o AsyncStorage recebe um parâmetro chamado de chave e outro de valor
-    // a chave(@localstorage:passwords) está seguindo um padrão porque dentro do
-    // celular do usuário pode ter outras aplicações que utilizam o armazenamento
-    // local, esse padrão(estratégia) para diferenciar as coleções, aquilo que é
-    // armazenado e mantido por essa aplicação 
-    await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
-    Toast.show({
-      type: "success",
-      text1: "Cadastrado com sucesso!"
-    });
+      // o AsyncStorage não é um banco de dados relacional, ele é um banco de dados
+      // simples que armazena as informações no formato de texto 
+      // o AsyncStorage recebe um parâmetro chamado de chave e outro de valor
+      // a chave(@localstorage:passwords) está seguindo um padrão porque dentro do
+      // celular do usuário pode ter outras aplicações que utilizam o armazenamento
+      // local, esse padrão(estratégia) para diferenciar as coleções, aquilo que é
+      // armazenado e mantido por essa aplicação 
+      await AsyncStorage.setItem("@localstorage:passwords", JSON.stringify(newData));
+      Toast.show({
+        type: "success",
+        text1: "Cadastrado com sucesso!"
+      });
+    } catch (error) {
+      console.log(error);
+      
+      Toast.show({
+        type: "error",
+        text1: "Não foi possível cadastrar."
+      });
+    }
   };
 
   return (
